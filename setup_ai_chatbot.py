@@ -1,148 +1,87 @@
 #!/usr/bin/env python3
 """
 Setup script for Jal Drishti AI Chatbot
-This script helps set up the AI-powered groundwater chatbot
 """
-
 import os
 import sys
 import subprocess
-import json
+
+REQUIREMENTS = "backend/requirements.txt"
+DATA_FILE = "backend/ingres_clone.json"
 
 def print_banner():
-    print("🌊" + "="*60)
+    print("=" * 60)
     print("   Jal Drishti AI - Groundwater Chatbot Setup")
-    print("="*62)
-    print()
+    print("=" * 60)
 
-def check_python_version():
-    """Check if Python version is compatible"""
+def check_python():
     if sys.version_info < (3, 8):
-        print("❌ Python 3.8 or higher is required")
-        print(f"   Current version: {sys.version}")
+        print(f"ERROR: Python 3.8+ required, found {sys.version_info[0]}.{sys.version_info[1]}")
         return False
-    print(f"✅ Python version: {sys.version.split()[0]}")
+    print(f"Python: {sys.version_info[0]}.{sys.version_info[1]}.{sys.version_info[2]}")
     return True
 
-def check_node_version():
-    """Check if Node.js is installed"""
+def check_node():
     try:
-        result = subprocess.run(['node', '--version'], capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"✅ Node.js version: {result.stdout.strip()}")
-            return True
-    except FileNotFoundError:
-        pass
-    print("❌ Node.js is not installed or not in PATH")
-    return False
-
-def install_backend_dependencies():
-    """Install Python dependencies"""
-    print("\n📦 Installing backend dependencies...")
-    try:
-        subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', 'backend/requirements.txt'], check=True)
-        print("✅ Backend dependencies installed successfully")
+        r = subprocess.run(["node", "--version"], capture_output=True, text=True, check=True)
+        print(f"Node.js: {r.stdout.strip()}")
         return True
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Failed to install backend dependencies: {e}")
+    except Exception:
+        print("ERROR: Node.js not found in PATH")
         return False
 
-def install_frontend_dependencies():
-    """Install Node.js dependencies"""
-    print("\n📦 Installing frontend dependencies...")
+def install_python():
+    print("\nInstalling Python dependencies...")
     try:
-        os.chdir('frontend')
-        subprocess.run(['npm', 'install'], check=True)
-        os.chdir('..')
-        print("✅ Frontend dependencies installed successfully")
+        subprocess.run([sys.executable, "-m", "pip", "install", "-r", REQUIREMENTS], check=True)
+        print("OK: Python dependencies installed")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"❌ Failed to install frontend dependencies: {e}")
+        print(f"FAILED: pip install exited with code {e.returncode}")
         return False
 
-def create_env_file():
-    """Create .env file for configuration"""
-    env_path = 'backend/.env'
+def install_node():
+    print("\nInstalling Node.js dependencies...")
+    try:
+        subprocess.run(["npm", "install"], check=True)
+        print("OK: Node.js dependencies installed")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"FAILED: npm install exited with code {e.returncode}")
+        return False
+
+def create_env():
+    env_path = "backend/.env"
     if os.path.exists(env_path):
-        print("✅ .env file already exists")
+        print(f"OK: {env_path} already exists")
         return True
-    
-    print("\n🔧 Creating .env file...")
-    env_content = """# OpenAI API Configuration
-OPENAI_API_KEY=your_openai_api_key_here
+    with open(env_path, "w") as f:
+        f.write("OPENAI_API_KEY=sk-your_key_here\nDEFAULT_LANGUAGE=EN\n")
+    print(f"OK: {env_path} created (please add your OpenAI key)")
+    return True
 
-# Optional: Set default language
-DEFAULT_LANGUAGE=EN
-
-# Chart configuration
-CHART_DPI=300
-CHART_FIGSIZE=10,6
-
-# Memory configuration
-MAX_CONVERSATION_MEMORY=10
-"""
-    
-    try:
-        with open(env_path, 'w') as f:
-            f.write(env_content)
-        print("✅ .env file created successfully")
-        print("   ⚠️  Please add your OpenAI API key to backend/.env")
+def check_data():
+    if os.path.exists(DATA_FILE):
+        print(f"OK: {DATA_FILE} found")
         return True
-    except Exception as e:
-        print(f"❌ Failed to create .env file: {e}")
-        return False
-
-def check_data_files():
-    """Check if required data files exist"""
-    data_file = 'backend/ingres_clone.json'
-    if os.path.exists(data_file):
-        print("✅ Groundwater data file found")
-        return True
-    else:
-        print("❌ Groundwater data file not found")
-        print(f"   Please ensure {data_file} exists")
-        return False
-
-def print_next_steps():
-    """Print next steps for the user"""
-    print("\n🚀 Setup Complete! Next steps:")
-    print("="*50)
-    print("1. Add your OpenAI API key to backend/.env")
-    print("2. Ensure backend/ingres_clone.json contains groundwater data")
-    print("3. Start the backend server:")
-    print("   cd backend && python app.py")
-    print("4. Start the frontend (in a new terminal):")
-    print("   cd frontend && npm run dev")
-    print("5. Or run both together:")
-    print("   cd frontend && npm run dev:all")
-    print("\n🌊 Enjoy your AI-powered groundwater chatbot!")
+    print(f"WARNING: {DATA_FILE} not found — chatbot will not have data to query")
+    print(f"  Place your CGWB groundwater JSON at: {DATA_FILE}")
+    return False
 
 def main():
     print_banner()
-    
-    # Check system requirements
-    if not check_python_version():
+    ok = True
+    ok &= check_python()
+    ok &= check_node()
+    if not ok:
         sys.exit(1)
-    
-    if not check_node_version():
-        print("   Please install Node.js from https://nodejs.org/")
-        sys.exit(1)
-    
-    # Install dependencies
-    if not install_backend_dependencies():
-        sys.exit(1)
-    
-    if not install_frontend_dependencies():
-        sys.exit(1)
-    
-    # Create configuration files
-    create_env_file()
-    
-    # Check data files
-    check_data_files()
-    
-    # Print next steps
-    print_next_steps()
+    install_python()
+    install_node()
+    create_env()
+    check_data()
+    print("\nSetup complete. Run: npm run dev")
+    print("  Frontend: http://localhost:8080")
+    print("  Backend:  http://localhost:5000")
 
 if __name__ == "__main__":
     main()

@@ -1,297 +1,144 @@
-# 🌊 Jal Drishti AI - Groundwater Analysis Chatbot
+# Jal Drishti AI — Groundwater Analysis Chatbot
 
-## 📋 Project Description
+An AI-powered chatbot that answers natural-language questions about groundwater levels across India using Central Ground Water Board (CGWB) data (2018–2020).
 
-**Jal Drishti AI** is an intelligent, AI-powered groundwater analysis chatbot designed to provide comprehensive insights, trend analysis, and predictions for groundwater data across India. The platform leverages advanced natural language processing, machine learning, and data visualization to make groundwater information accessible to researchers, policymakers, farmers, and citizens through an intuitive conversational interface.
-
-The system integrates with Central Ground Water Board (CGWB) data to deliver real-time analysis, historical trend visualization, and predictive insights. With support for multiple Indian languages and voice interaction, Jal Drishti AI democratizes access to critical water resource information, enabling informed decision-making for water management and conservation efforts.
-
-### Key Objectives
-- **Accessibility**: Make groundwater data accessible through natural language queries
-- **Intelligence**: Provide AI-powered insights and predictions from complex datasets
-- **Localization**: Support multiple Indian languages for broader reach
-- **Visualization**: Transform raw data into interactive charts and trend analyses
-- **User Experience**: Enable voice interaction and smart suggestions for seamless interaction
+Built for the **Ingres Fintech Hackathon**.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Node.js 16+ 
+- Node.js 16+
 - Python 3.8+
-- OpenAI API Key (optional, for full AI features)
-- npm or yarn package manager
 
-### Installation & Running
-
-**Option 1: One-Command Setup**
+### One-command setup
 ```bash
 npm run dev
 ```
+This installs dependencies and starts both servers.
 
-**Option 2: Using Startup Scripts**
+### Manual setup
 ```bash
-# Windows
-start.bat
+# Install everything
+npm install
+pip install -r backend/requirements.txt
 
-# Linux/Mac
-chmod +x start.sh
-./start.sh
-```
-
-**Option 3: Manual Setup**
-```bash
-# Install all dependencies
-npm run install:all
-
-# Start development servers
+# Start both servers
 npm run dev
 ```
 
-**Option 4: Python Setup Script**
-```bash
-python setup_ai_chatbot.py
-```
-
-### Access Points
-- **Frontend**: http://localhost:8080
-- **Backend API**: http://localhost:5000
+### Access
+| Service   | URL                     |
+|-----------|-------------------------|
+| Frontend  | http://localhost:8080   |
+| Backend   | http://localhost:5000   |
 
 ---
 
-## ✨ Features
+## Data
 
-### 🤖 AI-Powered Capabilities
-- **Natural Language Processing**: Understand complex groundwater-related queries in plain English
-- **Smart Query Parsing**: AI-powered location matching and entity extraction
-- **Intelligent Insights**: Context-aware recommendations and analysis
-- **Conversation Memory**: Maintains context across conversation sessions
-- **Predictive Analysis**: Trend detection and future predictions based on historical data
+- **Source**: Central Ground Water Board (CGWB)
+- **Period**: 2018–2020
+- **Format**: JSON (`backend/ingres_clone.json` — you must provide this file)
+- **Locations**: Groundwater monitoring stations across Indian districts
 
-### 🗣️ Voice & Language Support
-- **Voice Input**: Real-time speech recognition using Web Speech API
-- **Multi-language Support**: 6+ Indian languages (English, Hindi, Bengali, Telugu, Tamil, Gujarati)
-- **Voice Output**: Text-to-speech capabilities for accessibility
-- **Visual Feedback**: Animated indicators for voice interaction states
-
-### 📊 Data Analysis & Visualization
-- **Trend Analysis**: AI-enhanced trend detection and visualization
-- **Interactive Charts**: Dynamic charts with trend lines and annotations
-- **Comparative Analysis**: Compare groundwater data across different locations
-- **Anomaly Detection**: Flags unusual water level changes
-- **Historical Data**: Multi-year trend analysis and visualization
-
-### 💡 Smart User Experience
-- **Context-Aware Suggestions**: AI-generated follow-up questions
-- **Dynamic Recommendations**: Suggestions based on conversation history
-- **Quick Actions**: One-click access to common queries
-- **Responsive Design**: Optimized for all device sizes
-- **Real-time Updates**: Dynamic data refresh capabilities
+The dataset is historical and static. Predictions are extrapolative trend estimates, not forecasts.
 
 ---
 
-## 🏗️ Technology Stack
+## Features
 
-### Backend
-- **Python 3.8+**: Core backend language
-- **Flask**: Web framework for API endpoints
-- **OpenAI GPT-3.5-turbo**: Natural language understanding and query processing
-- **TF-IDF & Cosine Similarity**: Vector similarity search for location matching
-- **Data Processing Libraries**: Pandas, NumPy for data analysis
+### Core
+- Natural-language query parsing (location extraction, year/range detection)
+- Groundwater level lookup by location and year
+- Multi-year trend analysis with chart generation (matplotlib)
+- TF-IDF + cosine similarity location matching (difflib)
+
+### AI (requires OpenAI API key)
+- GPT-3.5-turbo response generation (default when key is set)
+- Context-aware explanations and insights
+- Graceful fallback to TF-IDF when no API key is configured
 
 ### Frontend
-- **Node.js 16+**: JavaScript runtime
-- **Modern Web Technologies**: HTML5, CSS3, JavaScript
-- **Web Speech API**: Voice input/output capabilities
-- **Chart Libraries**: Interactive data visualization
-- **Responsive Framework**: Mobile-first design approach
-
-### Development Tools
-- **Concurrently**: Run frontend and backend simultaneously
-- **npm/yarn**: Package management
-- **Git**: Version control
+- Chat interface with message history
+- Suggestion chips for common queries
+- Voice input via Web Speech API (Chrome/Edge)
+- Trend chart display inline
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-Jal-Drishti-AI---Groundwater-Analysis-Chatbot/
-├── frontend/                 # Frontend application
-│   ├── src/                  # Source files
-│   ├── public/               # Static assets
-│   └── package.json          # Frontend dependencies
-├── backend/                  # Backend API server
-│   ├── app.py                # Main Flask application
-│   ├── requirements.txt      # Python dependencies
-│   ├── .env                  # Environment variables
-│   └── data/                 # Groundwater datasets
-├── AI_FEATURES.md            # Detailed AI features documentation
-├── ChatbotIngres.ipynb       # Jupyter notebook for analysis
-├── setup_ai_chatbot.py       # Automated setup script
-├── start.bat                 # Windows startup script
-├── start.sh                  # Linux/Mac startup script
-├── package.json              # Root package configuration
-└── README.md                 # Project documentation
+├── frontend/                # Vite + vanilla JS chat UI
+│   ├── index.html
+│   ├── src/main.js
+│   ├── src/styles.css
+│   └── package.json
+├── backend/                 # Flask API server
+│   ├── app.py               # Main application
+│   ├── requirements.txt     # Python dependencies
+│   └── .env.example         # Environment template
+├── ChatbotIngres.ipynb      # Original notebook (prototype)
+├── setup_ai_chatbot.py      # Automated setup script
+├── start.bat / start.sh     # Platform startup scripts
+├── package.json             # Root orchestration (npm)
+└── README.md
 ```
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
-### Environment Variables
-
-Create a `.env` file in the `backend` directory:
+Create `backend/.env`:
 
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
-DEFAULT_LANGUAGE=EN
+OPENAI_API_KEY=sk-...   # Required for GPT-3.5 responses
+DEFAULT_LANGUAGE=EN     # EN, HI, BN, TE, TA, GU
 ```
 
-### OpenAI Settings
-- **Model**: GPT-3.5-turbo (configurable)
-- **Temperature**: 0.1-0.3 for consistent responses
-- **Max Tokens**: 150-200 for concise insights
-- **Language**: Supports multiple Indian languages
+Without an API key, the backend uses TF-IDF matching for location lookup and returns template-based responses.
 
 ---
 
-## 📡 API Documentation
+## API
 
-### Chat Endpoint
+### `POST /api/chat`
 
-**POST** `/api/chat`
-
-Process natural language queries about groundwater data.
-
-**Request Body:**
 ```json
 {
-  "query": "What's the groundwater status in Mumbai?",
-  "language": "EN",
-  "context": "previous conversation context (optional)"
+  "query": "What is the water level in Mumbai in 2020?",
+  "language": "EN"
 }
 ```
 
-**Response:**
 ```json
 {
-  "answer": "AI-generated response with insights",
-  "language": "EN",
-  "chart_url": "/api/charts/trend_chart.png",
+  "answer": "Water level data for Mumbai in 2020...",
+  "chart_url": "/api/charts/trend.png",
   "ai_insights": true,
-  "suggestions": ["Follow-up question 1", "Follow-up question 2"]
+  "language": "EN",
+  "suggestions": ["..."]
 }
 ```
 
-### Available Scripts
+### `GET /api/health`
 
-```bash
-# Development
-npm run dev              # Start both frontend and backend
-npm run frontend:dev     # Start frontend only
-npm run backend:dev      # Start backend only
-
-# Installation
-npm run install:all     # Install all dependencies
-npm run backend:install  # Install Python dependencies only
-
-# Build
-npm run build            # Build frontend for production
-npm run frontend:build   # Build frontend only
+```json
+{ "status": "ok", "openai": true, "data_loaded": true }
 ```
 
 ---
 
-## 📊 Data Sources
+## Demo
 
-- **Groundwater Data**: Central Ground Water Board (CGWB) data
-- **Location Database**: Comprehensive Indian location database
-- **Historical Data**: Multi-year trend analysis (2018-2020+)
-- **Real-time Updates**: Dynamic data refresh capabilities
+> *Live GIF coming soon. For now, the screenshot below shows the Tumakuru trend chart generated by the system.*
 
----
-
-## 🎯 Use Cases
-
-### For Researchers
-- Analyze groundwater trends across different regions
-- Compare data across multiple time periods
-- Generate insights for research papers and studies
-
-### For Policymakers
-- Access comprehensive groundwater status reports
-- Identify regions requiring immediate attention
-- Make data-driven policy decisions
-
-### For Farmers
-- Check groundwater availability in their region
-- Understand seasonal trends and patterns
-- Plan irrigation and water management strategies
-
-### For Citizens
-- Learn about groundwater status in their area
-- Understand water conservation needs
-- Access information in their preferred language
+![Tumakuru trend 2018-2020](Tumakuru_trend_2018_2020.png)
 
 ---
 
-## 🔮 Future Enhancements
+## License
 
-- **Machine Learning Models**: Custom ML models for groundwater prediction
-- **Real-time Data**: Integration with IoT sensors
-- **Advanced Analytics**: Deep learning for pattern recognition
-- **Mobile App**: Native mobile application with AI features
-- **API Expansion**: Public API for third-party integrations
-- **Geographic Mapping**: Interactive maps with groundwater overlays
-- **Alert System**: Notifications for critical groundwater changes
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Make your changes
-4. Add tests for new features
-5. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-6. Push to the branch (`git push origin feature/AmazingFeature`)
-7. Open a Pull Request
-
-### Development Guidelines
-- Follow existing code style and conventions
-- Write clear commit messages
-- Add documentation for new features
-- Test your changes thoroughly
-- Ensure backward compatibility
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License
-
----
-
-## 📞 Support & Contact
-
-For questions, issues, or contributions:
-- Open an issue on GitHub
-- Check `AI_FEATURES.md` for detailed AI capabilities
-- Review the Jupyter notebook for data analysis examples
-
----
-
-## 🙏 Acknowledgments
-
-- Central Ground Water Board (CGWB) for groundwater data
-- OpenAI for natural language processing capabilities
-- Open source community for various tools and libraries
-
----
-
-**Made with 💧 for water conservation and sustainable resource management**
-
+MIT

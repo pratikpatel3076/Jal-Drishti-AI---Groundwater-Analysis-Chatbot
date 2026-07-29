@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jal Drishti AI — Groundwater Analysis</title>
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">🌊</span>
+          <div>
+            <h1>Jal Drishti AI</h1>
+            <span class="subtitle">Groundwater Analysis Chatbot</span>
+          </div>
+        </div>
+        <div class="header-badge">AI</div>
+      </div>
+    </header>
+
+    <main id="chat-container">
+      <div id="messages">
+        <div class="message bot">
+          <div class="avatar">🤖</div>
+          <div class="bubble">
+            <p>Namaste! I'm <strong>Jal Drishti AI</strong>. Ask me about groundwater levels across India.</p>
+            <p class="example">Try: <em>"What is the water level in Mumbai in 2020?"</em></p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="suggestions">
+      <button class="chip" data-query="What is the water level in Mumbai in 2020?">Mumbai 2020</button>
+      <button class="chip" data-query="Show trends in Delhi from 2018 to 2020">Delhi trends</button>
+      <button class="chip" data-query="What is the groundwater status in Bangalore in 2019?">Bangalore 2019</button>
+    </div>
+
+    <footer>
+      <form id="input-form">
+        <button type="button" id="voice-btn" title="Voice input" aria-label="Voice input">🎤</button>
+        <input type="text" id="query-input" placeholder="Ask about groundwater..." autocomplete="off" />
+        <button type="submit" id="send-btn" aria-label="Send">➤</button>
+      </form>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

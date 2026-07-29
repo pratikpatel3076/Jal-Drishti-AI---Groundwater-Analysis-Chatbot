@@ -100,12 +100,14 @@ Desktop.ini
 *.swo
 *~
 
-# Data files (uncomment if you don't want to commit large data files)
-# *.csv
-# *.xlsx
-# *.xls
-# data/
-# datasets/
+# Data files
+ingres_clone.json
+*.csv
+*.xlsx
+*.xls
+
+# Generated chart output
+backend/static/charts/
 
 # Coverage and testing
 .coverage
