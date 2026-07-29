@@ -272,7 +272,7 @@ We welcome contributions! Please follow these steps:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ---
 
@@ -294,3 +294,4 @@ For questions, issues, or contributions:
 ---
 
 **Made with 💧 for water conservation and sustainable resource management**
+
